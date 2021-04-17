@@ -30,8 +30,8 @@ export default {
     },
     render() {
         const tag = this.tag || "div"
-        let result = this.$scopedSlots.default
-            ? this.$scopedSlots.default({
+        let result = this.$slots.default
+            ? this.$slots.default({
                   upload: this.uploadFile,
                   progress: this.progress,
                   success: this.success

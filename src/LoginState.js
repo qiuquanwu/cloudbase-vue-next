@@ -13,10 +13,10 @@ export default {
         const loginState = await this.$cloudbase.auth().getLoginState()
         this.loginState = loginState || null
         this.loading = false
-        this.$cloudbase.on("loginStateChanged", this.onLoginStateChanged)
+        //this.$cloudbase.on("loginStateChanged", this.onLoginStateChanged)
     },
-    beforeDestroy() {
-        this.$cloudbase.off("loginStateChanged", this.onLoginStateChanged)
+    beforeUnmount() {
+        //this.$cloudbase.off("loginStateChanged", this.onLoginStateChanged)
     },
     methods: {
         async onLoginStateChanged() {
@@ -26,8 +26,8 @@ export default {
     },
     render() {
         const tag = this.tag || "div"
-        let result = this.$scopedSlots.default
-            ? this.$scopedSlots.default({
+        let result = this.$slots.default
+            ? this.$slots.default({
                   loginState: this.loginState,
                   loading: this.loading
               })

@@ -25,32 +25,47 @@ import Cloudbase from "cloudbase-vue-next"
 import App from "./App.vue"
 const app = createApp(App)
 app.use(Cloudbase, {
-    env: "your-env-id"
+    env: "your-env-id",
+    region: "your-env-region"
 })
-
+app.mount('#app');
 ```
 
 App.vue
 ```html
 <template>
   <div id="app">
+    <h1>Hello world</h1>
     <LoginState v-slot="{ loginState }">
-      <h1>{{ loginState ? '已登录' : '未登录' }}</h1>
+      <h1>{{ loginState ? "已登录" : "未登录" }}</h1>
     </LoginState>
+    <button @click="callFn">调用云函数</button>
   </div>
 </template>
 
 <script>
-
 export default {
   async created() {
     // 以匿名登录为例
     await this.$cloudbase
       .auth({ persistence: "local" })
       .anonymousAuthProvider()
-      .signIn()
-  }
-}
+      .signIn();
+  },
+  methods: {
+    callFn() {
+      this.$cloudbase
+        .callFunction({
+          name: "vue-echo",
+          data: { meg: "Hello world" },
+        })
+        .then((res) => {
+          const result = res.result; //云函数执行结果
+          console.log(result);
+        });
+    },
+  },
+};
 </script>
 ```
 --------
