@@ -6,14 +6,14 @@ import DatabaseQuery from './DatabaseQuery'
 // import UploadCloudFile from './UploadCloudFile'
 
 const plugin = {
-  install(Vue, options) {
+  install(app, options) {
     // Vue.component("databaseQuery", Query)
-    Vue.component("LoginState", LoginState)
-    Vue.component("DatabaseWatch", DatabaseWatch)
-    Vue.component("CloudFile", CloudFile)
-    Vue.component("DatabaseQuery", DatabaseQuery)
+    app.component("LoginState", LoginState)
+    app.component("DatabaseWatch", DatabaseWatch)
+    app.component("CloudFile", CloudFile)
+    app.component("DatabaseQuery", DatabaseQuery)
     // Vue.component("UploadCloudFile", UploadCloudFile)
-    Vue.prototype.$cloudbase = cloudbase.init({
+    app.config.globalProperties.$cloudbase = cloudbase.init({
       env: options.env,
       region: options.region
     })

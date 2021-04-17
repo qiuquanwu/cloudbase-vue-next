@@ -1,11 +1,11 @@
-# 云开发 Vue 插件
+# 云开发 Vue3插件
 
 [云开发 Vue 插件](https://github.com/TencentCloudBase/cloudbase-vue) 是云开发官方维护的 Vue 插件，提供全局入口、Vue 逻辑组件等功能。
 
 ## 安装
 
 ```
-npm install --save @cloudbase/vue-provider
+npm install --save cloudbase-vue-next
 ```
 
 ------
@@ -15,8 +15,22 @@ npm install --save @cloudbase/vue-provider
 下面我们使用 `LoginState` 组件，来动态绑定当前页面的登录态。
 
 - 页面初始化时，显示 `'未登录'`
-- 之后我们调用[匿名登录](https://docs.cloudbase.net/authentication/anonymous.html)，如果登录成功，则文案将变成 `'已登录'`
+- 之后我们调用[匿名登录](https://docs.cloudbase.net/authentication/
+anonymous.html)，如果登录成功，则文案将变成 `'已登录'`
 
+main.js
+```js
+import {createApp} from "vue"
+import Cloudbase from "cloudbase-vue-next"
+import App from "./App.vue"
+const app = createApp(App)
+app.use(Cloudbase, {
+    env: "your-env-id"
+})
+
+```
+
+App.vue
 ```html
 <template>
   <div id="app">
@@ -27,12 +41,6 @@ npm install --save @cloudbase/vue-provider
 </template>
 
 <script>
-import Vue from "vue"
-import Cloudbase from "@cloudbase/vue-provider"
-
-Vue.use(Cloudbase, {
-    env: "your-env-id"
-})
 
 export default {
   async created() {
