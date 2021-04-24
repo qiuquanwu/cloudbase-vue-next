@@ -68,6 +68,47 @@ export default {
 };
 </script>
 ```
+在setup中使用
+```html
+<template>
+  <div id="app">
+    <h1>Hello world</h1>
+    <LoginState v-slot="{ loginState }">
+      <h1>{{ loginState ? "已登录" : "未登录" }}</h1>
+    </LoginState>
+    <button @click="callFn">调用云函数</button>
+  </div>
+</template>
+
+<script>
+import { useCloud } from "cloudbase-vue-next"
+export default {
+  setup(){
+    const cloudbase = useCloud({
+      env: "your-env-id",
+      region: "your-env-region"
+    });
+    //登录授权
+    cloudbase
+      .auth({ persistence: "local" })
+      .anonymousAuthProvider()
+      .signIn();
+    //请求函数
+    const callFn=()=>{
+      cloudbase
+      .callFunction({
+        name: "vue-echo",
+        data: { meg: "Hello world" },
+      })
+      .then((res) => {
+        const result = res.result; //云函数执行结果
+        console.log(result);
+      });
+    }
+  }
+};
+</script>
+```
 --------
 
 ## Plugin API
