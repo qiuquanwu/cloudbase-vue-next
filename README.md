@@ -105,6 +105,10 @@ export default {
         console.log(result);
       });
     }
+
+    return {
+      callFn
+    }
   }
 };
 </script>
