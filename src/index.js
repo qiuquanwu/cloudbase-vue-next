@@ -3,8 +3,15 @@ import LoginState from "./LoginState"
 import DatabaseWatch from "./DatabaseWatch"
 import CloudFile from "./CloudFile"
 import DatabaseQuery from "./DatabaseQuery"
+import { inject } from "vue"
 // import UploadCloudFile from './UploadCloudFile'
 
+const useCloud = options => {
+    return cloudbase.init({
+        env: options.env,
+        region: options.region
+    })
+}
 const plugin = {
     install(app, options) {
         // Vue.component("databaseQuery", Query)
@@ -13,17 +20,14 @@ const plugin = {
         app.component("CloudFile", CloudFile)
         app.component("DatabaseQuery", DatabaseQuery)
         // Vue.component("UploadCloudFile", UploadCloudFile)
-        app.config.globalProperties.$cloudbase = cloudbase.init({
+        let cloud = cloudbase.init({
             env: options.env,
             region: options.region
         })
-    },
-    useCloud(options) {
-        return cloudbase.init({
-            env: options.env,
-            region: options.region
-        })
+        app.config.globalProperties.$cloudbase = cloud
+        app.provide("cloudbase", cloud)
     }
 }
 
 export default plugin
+export { useCloud }
