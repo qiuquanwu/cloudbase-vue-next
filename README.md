@@ -82,34 +82,32 @@ export default {
 
 <script>
 import { useCloud } from "cloudbase-vue-next"
+import { onMounted } from "vue";
 export default {
-  setup(){
-    const cloudbase = useCloud({
-      env: "your-env-id",
-      region: "your-env-region"
-    });
-    //登录授权
-    cloudbase
-      .auth({ persistence: "local" })
-      .anonymousAuthProvider()
-      .signIn();
-    //请求函数
-    const callFn=()=>{
+  setup() {
+    let cloudbase;
+    const callFn = () => {
       cloudbase
-      .callFunction({
-        name: "vue-echo",
-        data: { meg: "Hello world" },
-      })
-      .then((res) => {
-        const result = res.result; //云函数执行结果
-        console.log(result);
-      });
-    }
-
+        .callFunction({
+          name: "hello_world",
+          data: { meg: "Hello world" },
+        })
+        .then((res) => {
+          const result = res.result; //云函数执行结果
+          console.log(result);
+        });
+    };
+    onMounted(async () => {
+      cloudbase = useCloud();
+      await cloudbase
+        .auth({ persistence: "local" })
+        .anonymousAuthProvider()
+        .signIn();
+    });
     return {
-      callFn
-    }
-  }
+      callFn,
+    };
+  },
 };
 </script>
 ```

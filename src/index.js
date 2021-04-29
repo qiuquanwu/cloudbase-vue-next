@@ -6,11 +6,8 @@ import DatabaseQuery from "./DatabaseQuery"
 import { inject } from "vue"
 // import UploadCloudFile from './UploadCloudFile'
 
-const useCloud = options => {
-    return cloudbase.init({
-        env: options.env,
-        region: options.region
-    })
+const useCloud = () => {
+    return inject("cloud")
 }
 const plugin = {
     install(app, options) {
@@ -25,7 +22,7 @@ const plugin = {
             region: options.region
         })
         app.config.globalProperties.$cloudbase = cloud
-        app.provide("cloudbase", cloud)
+        app.provide("cloud", cloud)
     }
 }
 
